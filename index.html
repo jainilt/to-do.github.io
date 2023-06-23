@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do App</title>
+  <style>
+    .container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+li {
+  text-align: left;
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+
+li span {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+   // Load tasks from local storage when the page is loaded
+window.addEventListener('load', function() {
+  var savedTasks = localStorage.getItem('tasks');
+  if (savedTasks) {
+    var taskList = document.getElementById('taskList');
+    taskList.innerHTML = savedTasks;
+  }
+});
+
+function addTask() {
+  var taskInput = document.getElementById('taskInput');
+  var taskList = document.getElementById('taskList');
+
+  if (taskInput.value !== '') {
+    var task = document.createElement('li');
+    task.innerHTML = "<span onclick='removeTask(this)'>&times;</span>" + taskInput.value;
+    taskList.appendChild(task);
+    taskInput.value = '';
+
+    // Save tasks to local storage
+    saveTasksToLocalStorage();
+  }
+}
+
+function removeTask(task) {
+  task.parentNode.remove();
+
+  // Save tasks to local storage
+  saveTasksToLocalStorage();
+}
+
+function saveTasksToLocalStorage() {
+  var taskList = document.getElementById('taskList');
+  localStorage.setItem('tasks', taskList.innerHTML);
+}
+
+  </script>
+</body>
+</html>
